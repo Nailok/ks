@@ -1,58 +1,148 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div class="small">
+    <!-- Вывод диаграммы.
+datacollection - данные для диаграммы,
+options - параметры отображения диаграммы
+ -->
+    <div class="q-gutter-md" style="max-width: 300px" align="center">
+      <q-input
+        outlined
+        v-model="a_value"
+        label="A"
+        type="Number"
+        @input="fillData()"
+      />
+      <q-input
+        outlined
+        v-model="b_value"
+        label="B"
+        type="Number"
+        @input="fillData()"
+      />
+      <q-input
+        outlined
+        v-model="c_value"
+        label="C"
+        type="Number"
+        @input="fillData()"
+      />
+
+      <q-input
+        outlined
+        v-model="max_value"
+        label="max"
+        type="Number"
+        @input="fillData()"
+      />
+    </div>
+
+    <line-chart :chart-data="datacollection" :options="options"></line-chart>
   </div>
 </template>
-
 <script>
+// Подключение компонента для отображения диаграммы
+import LineChart from "../components/LineCharts.js";
+// Подключение компонента QBtn из библиотеки Quasar
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
-</script>
+  // Описание используемых в шаблоне компонентов
+  components: {
+    LineChart,
+  },
+  data() {
+    return {
+      // Данные для диаграммы
+      datacollection: null,
+      // Настройка параметров диаграммы
+      options: null,
+      a_value: 1,
+      b_value: 1,
+      c_value: 1,
+      max_value: 10,
+    };
+  },
+  // Заполнение this.datacollection и this.options начальными статическими значениями
+  created() {
+    this.datacollection = {};
+    this.options = {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Line Chart",
+      },
+      tooltips: {
+        mode: "index",
+        intersect: false,
+      },
+      hover: {
+        mode: "nearest",
+        intersect: true,
+      },
+      scales: {
+        xAxes: [
+          {
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: "X",
+            },
+          },
+        ],
+        yAxes: [
+          {
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: "Y",
+            },
+          },
+        ],
+      },
+    };
+  },
+  mounted() {
+    // Заполнение данных с помощью функции fillData
+    this.fillData();
+  },
+  methods: {
+    // Функция, которая производит заполнение данных случайным образом
+    fillData() {
+      var dataArray = [];
+      var labelsArray = [];
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+      console.log("---------------------");
+      for (var i = 0; i < this.max_value; i += 1) {
+        dataArray[i] = this.processFunction(
+          parseFloat(this.a_value),
+          parseFloat(this.b_value),
+          parseFloat(this.c_value),
+          i
+        );
+        console.log(dataArray[i]);
+        labelsArray[i] = i;
+      }
+
+      this.datacollection = {
+        labels: labelsArray,
+        datasets: [
+          {
+            label: "My First dataset",
+            backgroundColor: "#F00",
+            borderColor: "#F00",
+            data: dataArray,
+            fill: false,
+          },
+        ],
+      };
+    },
+    processFunction(a, b, c, x) {
+      return a * x * Math.sin(b * x) + c;
+    },
+  },
+};
+</script>
+<style>
+.small {
+  max-width: 600px;
+  margin: 150px auto;
 }
 </style>
