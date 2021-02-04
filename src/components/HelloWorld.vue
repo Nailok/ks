@@ -1,5 +1,5 @@
 <template>
-  <div class="small">
+  <div class="small" v-if="this.$store.getters.getAuth">
     <my-dialog
       :a="a"
       :b="b"
@@ -29,11 +29,13 @@
       </div>
     </div>
   </div>
+  <div v-else><UnregisterMenu /></div>
 </template>
 <script>
 // Подключение компонента для отображения диаграммы
 import LineChart from "../components/LineCharts.js";
 import MyDialog from "../components/Dialog.vue";
+import UnregisterMenu from "../components/UnregisteredMenu.vue";
 // Подключение компонента QBtn из библиотеки Quasar
 import { QBtn } from "quasar";
 export default {
@@ -42,6 +44,7 @@ export default {
     LineChart,
     QBtn,
     MyDialog,
+    UnregisterMenu,
   },
   data() {
     return {

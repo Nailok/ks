@@ -1,103 +1,75 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lhh lpr lff">
     <q-header elevated class="glossy">
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          aria-label="Menu"
-          icon="menu"
-        />
+      <q-bar class="bg-black text-white">
+        <q-toolbar-title>Vue.js Graph </q-toolbar-title>
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <span v-if="this.$store.getters.getAuth">
+          {{ this.$store.getters.getUsername.name }}
+          <a href="/"><q-btn name="Home" color="Primary" label="home"/></a>
+          <q-btn name="profile" color="Primary" label="Profile"></q-btn>
+          <a @click="logout"
+            ><q-btn name="LogOut" color="Primary" label="logout"
+          /></a>
+        </span>
+        <span v-else>
+          <a href="/login"
+            ><q-btn name="Login" color="Primary" label="login"
+          /></a>
+          <a href="/register"
+            ><q-btn name="SignIn" color="Primary" label="sign in"
+          /></a>
+        </span>
 
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
+        <q-btn color="accent" label="language">
+          <q-menu fit>
+            <q-list>
+              <q-item clickable>
+                <q-btn color="primary" label="en" @click="changeToEn()"></q-btn>
+              </q-item>
+              <q-item clickable>
+                <q-btn color="primary" label="ru" @click="changeToRu()"></q-btn>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+      </q-bar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      content-class="bg-grey-2"
-    >
-      <q-list>
-        <q-item-label header>Essential Links</q-item-label>
-        <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="school" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Docs</q-item-label>
-            <q-item-label caption>quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://github.com/quasarframework/">
-          <q-item-section avatar>
-            <q-icon name="code" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Github</q-item-label>
-            <q-item-label caption>github.com/quasarframework</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://chat.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="chat" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Discord Chat Channel</q-item-label>
-            <q-item-label caption>chat.quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://forum.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="forum" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Forum</q-item-label>
-            <q-item-label caption>forum.quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://twitter.com/quasarframework">
-          <q-item-section avatar>
-            <q-icon name="rss_feed" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Twitter</q-item-label>
-            <q-item-label caption>@quasarframework</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-drawer>
-
     <q-page-container>
-      <HelloWorld />
+      <div id="app">
+        <span v-if="this.$store.getters.getAuth">
+          profile <br />
+          first_name: {{ this.$store.getters.getUsername.name }}<br />
+          email: {{ this.$store.getters.getUsername.email }}<br />
+          password: {{ this.$store.getters.getUsername.password }}<br />
+        </span>
+        <router-view></router-view>
+      </div>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'LayoutDefault',
+  name: "LayoutDefault",
 
-  components: {
-    HelloWorld
+  methods: {
+    logout() {
+      this.$store.dispatch("unsetStorage").then(() => {
+        this.$router.push("/login");
+      });
+    },
+    // changeToEn() {
+    //   this.$store.dispatch('setLang', 'en')
+    //   location.reload()
+    // },
+    // changeToRu(){
+    //   this.$store.dispatch('setLang', 'ru')
+    //   location.reload()
+    // }
   },
-
-  data () {
-    return {
-      leftDrawerOpen: false
-    }
-  }
-}
+};
 </script>
 
-<style>
-</style>
+<style></style>
