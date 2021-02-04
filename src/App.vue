@@ -7,7 +7,9 @@
         <span v-if="this.$store.getters.getAuth">
           {{ this.$store.getters.getUsername.name }}
           <a href="/"><q-btn name="Home" color="Primary" label="home"/></a>
-          <q-btn name="profile" color="Primary" label="Profile"></q-btn>
+          <a href="/profile"
+            ><q-btn name="profile" color="Primary" label="Profile"></q-btn
+          ></a>
           <a @click="logout"
             ><q-btn name="LogOut" color="Primary" label="logout"
           /></a>
@@ -38,12 +40,6 @@
 
     <q-page-container>
       <div id="app">
-        <span v-if="this.$store.getters.getAuth">
-          profile <br />
-          first_name: {{ this.$store.getters.getUsername.name }}<br />
-          email: {{ this.$store.getters.getUsername.email }}<br />
-          password: {{ this.$store.getters.getUsername.password }}<br />
-        </span>
         <router-view></router-view>
       </div>
     </q-page-container>

@@ -1,7 +1,6 @@
 <template>
   <div id="register">
     <h2>Registration</h2>
-    <!-- <h4>{{ $t("reg.title") }}</h4> -->
     <form @submit.prevent="register">
       <label for="name">Name</label>
       <div>
@@ -15,10 +14,17 @@
 
       <label for="gender" type="text">gender </label>
       <div>
-        <select name="gender" id="gender" v-model="gender">
+        <!-- <select name="gender" id="gender" v-model="gender">
           <option>Male</option>
           <option>Female</option>
-        </select>
+        </select> -->
+
+        <input type="radio" id="male" value="Male" v-model="gender" />
+        <label for="male">Male</label>
+        <br />
+        <input type="radio" id="female" value="Female" v-model="gender" />
+        <label for="female">Female</label>
+        <br />
       </div>
 
       <label for="password"> password </label>
@@ -53,7 +59,7 @@ export default {
       email: "",
       password: "",
       password_confirmation: "",
-      country: null,
+      gender: "",
       errors: "",
     };
   },
@@ -63,6 +69,7 @@ export default {
         let data = {
           name: this.name,
           email: this.email,
+          gender: this.gender,
           password: this.password,
           country: this.country,
         };

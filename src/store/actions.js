@@ -13,6 +13,6 @@ export function setAuth(context) {
 // Функция сброса всех полей хранилища данных
 export function unsetStorage(context) {
     context.commit('unsetLang')
-    context.commit('unsetUsername')
+    context.commit('unsetStorage')
     context.commit('unsetAuth')
 }

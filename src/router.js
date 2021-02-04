@@ -4,9 +4,8 @@ import Home from './components/HelloWorld.vue'
 import Login from './components/Authorization.vue'
 import Register from './components/Registration.vue'
 import p404 from './components/p404.vue'
-// import ChangeStats from './components/ChangeStats.vue'
-
-
+import Profile from './components/Profile.vue'
+import ChangeProfile from './components/ChangeProfile.vue'
 Vue.use(Router)
 
 let router = new Router({
@@ -32,11 +31,16 @@ let router = new Router({
             name: 'p404',
             component: p404
         },
-        // {
-        //     path: '/change_stats',
-        //     name: 'change_stats',
-        //     component: ChangeStats,
-        // }
+        {
+            path: '/profile',
+            name: 'profile',
+            component: Profile,
+        },
+        {
+            path: '/changeProfile',
+            name: 'changeProfile',
+            component: ChangeProfile
+        }
     ]
 })
 
