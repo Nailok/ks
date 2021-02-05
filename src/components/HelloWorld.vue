@@ -1,52 +1,50 @@
 <template>
-  <div class="small">
-    <!-- Вывод диаграммы.
-datacollection - данные для диаграммы,
-options - параметры отображения диаграммы
- -->
-    <div class="q-gutter-md" style="max-width: 300px" align="center">
-      <q-input
-        outlined
-        v-model="a_value"
-        label="A"
-        type="Number"
-        @input="fillData()"
-      />
-      <q-input
-        outlined
-        v-model="b_value"
-        label="B"
-        type="Number"
-        @input="fillData()"
-      />
-      <q-input
-        outlined
-        v-model="c_value"
-        label="C"
-        type="Number"
-        @input="fillData()"
-      />
-
-      <q-input
-        outlined
-        v-model="max_value"
-        label="max"
-        type="Number"
-        @input="fillData()"
-      />
+  <div class="small" v-if="this.$store.getters.getAuth">
+    <my-dialog
+      :a="a"
+      :b="b"
+      :c="c"
+      :max_value="max_value"
+      :showDlg="showDlg"
+      @closeEditDlg="showDlg = false"
+      @setNewValue="setParams"
+    ></my-dialog>
+    <div class="small">
+      <div class="fat" align="center"><p>y = a*x*sin(b*x)+c</p></div>
+      <div class="inline">
+        <p>A = {{ a }}</p>
+        <p>B = {{ b }}</p>
+        <p>C = {{ c }}</p>
+        <p>{{ $t("graph.max") }} = {{ max_value }}</p>
+      </div>
+      <line-chart :chart-data="datacollection" :options="options"></line-chart>
+      <div class="row justify-center">
+        <q-btn
+          color="primary"
+          :label="$t('graph.params')"
+          class="q-mlmd"
+          align="center"
+          @click="showDlg = true"
+        ></q-btn>
+      </div>
     </div>
-
-    <line-chart :chart-data="datacollection" :options="options"></line-chart>
   </div>
+  <div v-else><UnregisterMenu /></div>
 </template>
 <script>
 // Подключение компонента для отображения диаграммы
 import LineChart from "../components/LineCharts.js";
+import MyDialog from "../components/Dialog.vue";
+import UnregisterMenu from "../components/UnregisteredMenu.vue";
 // Подключение компонента QBtn из библиотеки Quasar
+import { QBtn } from "quasar";
 export default {
   // Описание используемых в шаблоне компонентов
   components: {
     LineChart,
+    QBtn,
+    MyDialog,
+    UnregisterMenu,
   },
   data() {
     return {
@@ -54,10 +52,11 @@ export default {
       datacollection: null,
       // Настройка параметров диаграммы
       options: null,
-      a_value: 1,
-      b_value: 1,
-      c_value: 1,
+      a: 2,
+      b: 1,
+      c: 1,
       max_value: 10,
+      showDlg: false,
     };
   },
   // Заполнение this.datacollection и this.options начальными статическими значениями
@@ -67,7 +66,7 @@ export default {
       responsive: true,
       title: {
         display: true,
-        text: "Line Chart",
+        eext: "Line Chart",
       },
       tooltips: {
         mode: "index",
@@ -99,11 +98,20 @@ export default {
       },
     };
   },
+
   mounted() {
     // Заполнение данных с помощью функции fillData
     this.fillData();
   },
   methods: {
+    setParams(param) {
+      this.a = param.a;
+      this.b = param.b;
+      this.c = param.c;
+      this.max_value = param.max_value;
+      this.fillData();
+      this.showDlg = false;
+    },
     // Функция, которая производит заполнение данных случайным образом
     fillData() {
       var dataArray = [];
@@ -112,20 +120,23 @@ export default {
       console.log("---------------------");
       for (var i = 0; i < this.max_value; i += 1) {
         dataArray[i] = this.processFunction(
-          parseFloat(this.a_value),
-          parseFloat(this.b_value),
-          parseFloat(this.c_value),
-          i
+          parseFloat(this.a),
+          parseFloat(this.b),
+          parseFloat(this.c),
+          parseFloat(i)
         );
-        console.log(dataArray[i]);
         labelsArray[i] = i;
       }
+      console.log(this.a);
+      console.log(this.b);
+      console.log(this.c);
+      console.log(this.max_value);
 
       this.datacollection = {
         labels: labelsArray,
         datasets: [
           {
-            label: "My First dataset",
+            label: "Y",
             backgroundColor: "#F00",
             borderColor: "#F00",
             data: dataArray,
@@ -138,11 +149,27 @@ export default {
       return a * x * Math.sin(b * x) + c;
     },
   },
+
+  // watch: {
+  //   $route(to, from) {
+  //     // обрабатываем изменение параметров маршрута...
+  //     this.fillData();
+  //   },
+  // },
 };
 </script>
 <style>
 .small {
   max-width: 600px;
   margin: 150px auto;
+}
+
+.inline {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fat {
+  font-size: 25px;
 }
 </style>
