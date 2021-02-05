@@ -150,12 +150,12 @@ export default {
     },
   },
 
-  watch: {
-    $route(to, from) {
-      // обрабатываем изменение параметров маршрута...
-      this.fillData();
-    },
-  },
+  // watch: {
+  //   $route(to, from) {
+  //     // обрабатываем изменение параметров маршрута...
+  //     this.fillData();
+  //   },
+  // },
 };
 </script>
 <style>
