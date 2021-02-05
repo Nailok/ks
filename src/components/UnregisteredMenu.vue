@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p4>You have to authorize in order to see website's content</p4>
+    <p2>{{ $t("guest.header") }}</p2>
   </div>
 </template>
 
