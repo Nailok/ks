@@ -6,24 +6,30 @@
 
         <span v-if="this.$store.getters.getAuth">
           {{ this.$store.getters.getUsername.name }}
-          <a href="/"><q-btn name="Home" color="Primary" label="home"/></a>
+          <a href="/"
+            ><q-btn name="Home" color="Primary" :label="$t('head.home')"
+          /></a>
           <a href="/profile"
-            ><q-btn name="profile" color="Primary" label="Profile"></q-btn
+            ><q-btn
+              name="profile"
+              color="Primary"
+              :label="$t('head.profile')"
+            ></q-btn
           ></a>
           <a @click="logout"
-            ><q-btn name="LogOut" color="Primary" label="logout"
+            ><q-btn name="LogOut" color="Primary" :label="$t('head.logout')"
           /></a>
         </span>
         <span v-else>
           <a href="/login"
-            ><q-btn name="Login" color="Primary" label="login"
+            ><q-btn name="Login" color="Primary" :label="$t('head.login')"
           /></a>
           <a href="/register"
-            ><q-btn name="SignIn" color="Primary" label="sign in"
+            ><q-btn name="SignIn" color="Primary" :label="$t('head.signin')"
           /></a>
         </span>
 
-        <q-btn color="accent" label="language">
+        <!-- <q-btn color="accent" label="language">
           <q-menu fit>
             <q-list>
               <q-item clickable>
@@ -34,7 +40,7 @@
               </q-item>
             </q-list>
           </q-menu>
-        </q-btn>
+        </q-btn> -->
       </q-bar>
     </q-header>
 

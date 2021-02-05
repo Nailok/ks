@@ -1,15 +1,20 @@
 <template>
   <div>
     <div id="login">
-      <h1>Login</h1>
-      <input required v-model="email" type="email" placeholder="Name" />
+      <h1>{{ $t("auth.header") }}</h1>
+      <input
+        required
+        v-model="email"
+        type="email"
+        :placeholder="$t('auth.email')"
+      />
       <input
         required
         type="password"
         v-model="password"
-        placeholder="Password"
+        :placeholder="$t('auth.password')"
       />
-      <button type="button" v-on:click="login()">Login</button>
+      <button type="button" v-on:click="login()">{{ $t("auth.enter") }}</button>
       <span v-if="this.errors != ''">
         <br />
         {{ this.errors }}

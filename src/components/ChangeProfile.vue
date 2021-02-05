@@ -1,35 +1,35 @@
 <template>
   <div id="register">
     <form class="change" @submit.prevent="change">
-      <h4>Change personal data</h4>
-      <label>New email</label>
+      <h4>{{ $t("edit.header") }}</h4>
+      <label>{{ $t("edit.email") }}</label>
       <div>
         <input
           id="email"
           required
           v-model="email"
           type="email"
-          placeholder="Name"
+          :placeholder="$t('edit.email')"
         /><br />
       </div>
       <div>
-        <label>New password</label>
+        <label>{{ $t("edit.password") }}</label>
       </div>
       <div>
         <input
           required
           v-model="password"
           type="password"
-          placeholder="Password"
+          :placeholder="$t('edit.password')"
         />
       </div>
-      <label for="password-confirm">password_confirmation</label>
+      <label for="password-confirm">{{ $t("edit.password_confirm") }}</label>
       <div>
         <input
           id="password-confirm"
           type="password"
           v-model="password_confirmation"
-          placeholder="Password confirmation"
+          :placeholder="$t('edit.password_confirm')"
           required
         />
       </div>
@@ -68,7 +68,7 @@ export default {
           .dispatch("setUsername", newUsr)
           .then(() => this.$router.push("/profile"))
           .catch((err) => console.log(err));
-      } else this.errors = "Passwords are not equal";
+      } else this.errors = this.$t("edit.pass_err");
     },
   },
 };

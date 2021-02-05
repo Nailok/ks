@@ -13,30 +13,34 @@ export default {
     >
       <q-header class="bg-primary">
         <q-toolbar>
-          <q-toolbar-title>Диалоговое окно</q-toolbar-title>
+          <q-toolbar-title>{{ $t("graph.params") }}</q-toolbar-title>
           <q-btn flat round dense icon="close" @click="closeDlg" />
         </q-toolbar>
       </q-header>
       <q-footer class="bg-primary">
         <q-toolbar>
           <q-toolbar-title></q-toolbar-title>
-          <q-btn label="Отменить" @click="closeDlg()" class="q-mr-sm" />
-          <q-btn label="Сохранить" @click="submit()" />
+          <q-btn
+            :label="$t('graph.cancel')"
+            @click="closeDlg()"
+            class="q-mr-sm"
+          />
+          <q-btn :label="$t('graph.save')" @click="submit()" />
         </q-toolbar>
       </q-footer>
       <q-page-container>
         <q-page padding>
           <div class="doc-container q-ma-md">
-            <q-field label="Параметр A">
+            <q-field label="A">
               <q-input v-model="form.a" type="Number" />
             </q-field>
-            <q-field label="Параметр B">
+            <q-field label="B">
               <q-input v-model="form.b" type="Number" />
             </q-field>
-            <q-field label="Параметр C">
+            <q-field label="C">
               <q-input v-model="form.c" type="Number" />
             </q-field>
-            <q-field label="Параметр X max">
+            <q-field :label="$t('graph.max')">
               <q-input v-model="form.max_value" type="Number" />
             </q-field>
           </div>

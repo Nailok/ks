@@ -1,9 +1,5 @@
 <template>
   <div>
-    <h1>404 Page Not Found</h1>
-    <p>
-      Head back to the <router-link to="/">home page</router-link> and start
-      again.
-    </p>
+    <h1>{{ $t("p404.head") }}</h1>
   </div>
 </template>

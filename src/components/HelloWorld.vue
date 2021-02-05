@@ -15,13 +15,13 @@
         <p>A = {{ a }}</p>
         <p>B = {{ b }}</p>
         <p>C = {{ c }}</p>
-        <p>max_value = {{ max_value }}</p>
+        <p>{{ $t("graph.max") }} = {{ max_value }}</p>
       </div>
       <line-chart :chart-data="datacollection" :options="options"></line-chart>
       <div class="row justify-center">
         <q-btn
           color="primary"
-          label="Параметры..."
+          :label="$t('graph.params')"
           class="q-mlmd"
           align="center"
           @click="showDlg = true"

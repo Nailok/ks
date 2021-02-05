@@ -46,7 +46,23 @@ const store = new Vuex.Store({
   actions,
   plugins: [createPersistedState()],
 })
+
+// Поддержка мультиязычности
+import VueInternalization from 'vue-i18n'
+
+Vue.use(VueInternalization)
+// Все переводы хранятся в отдельном файле ru.js
+// Для добавления новых переводов необходимо создать файл спереводами на других языках
+// и поменять store.state.lang
+import messages from './i18n/ru.js'
+const i18n = new VueInternalization({
+  locale: store.state.lang,
+  messages,
+})
+
+Vue.config.lang = 'ru';
 new Vue({
+  i18n,
   router: router,
   store: store,
   render: h => h(App),
