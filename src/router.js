@@ -40,6 +40,10 @@ let router = new Router({
             path: '/changeProfile',
             name: 'changeProfile',
             component: ChangeProfile
+        },
+        {
+            path: '*',
+            redirect: '/p404'
         }
     ]
 })
